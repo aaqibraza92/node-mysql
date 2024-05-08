@@ -5,7 +5,7 @@ const con= mysql.createConnection({
     user: 'root',
     password: '',
     database: 'node'
-})
+}) 
 
 con.connect((err)=>{
 if(err){
