@@ -1,8 +1,30 @@
 const express= require("express");
 const app=express();
 const con= require("./config")
-
+const multer  = require('multer')
+const path = require('path');
 app.use(express.json())
+
+// const upload = multer({ dest: 'uploads/' })
+
+const upload= multer({
+    storage: multer.diskStorage({
+        destination: function(req,file,cb){
+            cb(null,"uploads") //folder name
+        },
+        // filename: function(req,file,cb){
+        //     cb(null,file.fieldname+ "-"+Date.now()+".jpg" || null,file.fieldname+ "-"+Date.now()+".png")
+        // }
+        filename: (req, file, cb) => {
+            // Generate a unique filename for the uploaded file
+            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+            const ext = path.extname(file.originalname);
+            cb(null, file.fieldname + '-' + uniqueSuffix + ext);
+          }
+
+    })
+}).single("user_file") 
+
 app.get("/users",(req,resp)=>{
     con.query("SELECT * FROM `user`",(error,result)=>{
         if(error){
@@ -56,6 +78,10 @@ app.delete("/users/:id",(req,resp)=>{
         }
     })
 
+})
+
+app.post("/upload",upload,(req,resp)=>{
+    resp.send(resp.json())
 })
 
 
