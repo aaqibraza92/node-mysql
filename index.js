@@ -81,7 +81,13 @@ app.delete("/users/:id",(req,resp)=>{
 })
 
 app.post("/upload",upload,(req,resp)=>{
-    resp.send(resp.json())
+
+    console.log("ress",resp.req.file.filename)
+    resp.status(200).json({
+        success: true,
+        msg: "done"
+    })
+    // resp.send(resp.json())
 })
 
 
