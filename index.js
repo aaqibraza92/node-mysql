@@ -83,6 +83,7 @@ app.delete("/users/:id",(req,resp)=>{
 app.post("/upload",upload,(req,resp)=>{
 
     console.log("ress",resp.req.file.filename)
+    con.query("INSERT INTO portfolio SET ?",)
     resp.status(200).json({
         success: true,
         msg: "done"
